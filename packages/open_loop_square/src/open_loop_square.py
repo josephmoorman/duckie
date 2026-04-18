@@ -55,7 +55,7 @@ class Drive_Square:
         for i in range(4):
             # Move forward
             rospy.loginfo("Forward!")
-            self.publish_for_duration(v=0.3, omega=0.0, duration=4.6)  # adjust duration for more distance
+            self.publish_for_duration(v=0.3, omega=0.0, duration=4.8)  # adjust duration for more distance
             self.stop_robot()
             rospy.sleep(0.5)
 
