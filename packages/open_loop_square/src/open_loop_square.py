@@ -58,7 +58,7 @@ class Drive_Square:
             self.pub.publish(self.cmd_msg)
 
             rospy.loginfo("Forward")
-            rospy.sleep(2.5)   # 🔧 adjust for distance
+            rospy.sleep(6)   # 🔧 adjust for distance
 
             self.stop_robot()
             rospy.sleep(0.5)
@@ -70,7 +70,7 @@ class Drive_Square:
             self.pub.publish(self.cmd_msg)
 
             rospy.loginfo("Turning")
-            rospy.sleep(0.9)   # 🔧 adjust for 90° turn
+            rospy.sleep(1.5)   # 🔧 adjust for 90° turn
 
             self.stop_robot()
             rospy.sleep(0.5)
