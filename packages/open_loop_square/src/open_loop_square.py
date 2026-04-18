@@ -34,11 +34,10 @@ class Drive_Square:
         self.cmd_msg.omega = 0.0
         self.pub.publish(self.cmd_msg)
 
-    # Spin forever but listen to message callbacks
     def run(self):
-        rospy.spin() # keeps node from exiting until node has shutdown
+        rospy.spin() 
 
-    # Publishes a velocity command for a set duration at 10Hz
+    # Publishes a velocity command
     def publish_for_duration(self, v, omega, duration):
         rate = rospy.Rate(10)  # 10Hz
         end_time = rospy.Time.now() + rospy.Duration(duration)
@@ -49,20 +48,20 @@ class Drive_Square:
             self.pub.publish(self.cmd_msg)
             rate.sleep()
 
-    # Robot drives in a square and then stops
+    # Robot drives in a square
     def move_robot(self):
         rospy.loginfo("Starting square motion")
 
         for i in range(4):
             # Move forward
             rospy.loginfo("Forward!")
-            self.publish_for_duration(v=0.3, omega=0.0, duration=3.8)  # adjust duration for ~1m
+            self.publish_for_duration(v=0.3, omega=0.0, duration=4.2)  # adjust duration for more distance
             self.stop_robot()
             rospy.sleep(0.5)
 
             # Turn 90 degrees in place
             rospy.loginfo("Turning!")
-            self.publish_for_duration(v=0.0, omega=4.0, duration=0.90)  # adjust duration for 90°
+            self.publish_for_duration(v=0.0, omega=4.0, duration=0.91)  # adjust duration for more turn degrees
             self.stop_robot()
             rospy.sleep(0.5)
 
