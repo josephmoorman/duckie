@@ -62,7 +62,7 @@ class Drive_Square:
 
             # Turn 90 degrees in place
             rospy.loginfo("Turning!")
-            self.publish_for_duration(v=0.0, omega=4.0, duration=0.39)  # 🔧 adjust duration for 90°
+            self.publish_for_duration(v=0.0, omega=4.0, duration=0.78)  # 🔧 adjust duration for 90°
             self.stop_robot()
             rospy.sleep(0.5)
 
