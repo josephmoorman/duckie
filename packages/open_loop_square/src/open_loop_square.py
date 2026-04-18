@@ -56,13 +56,13 @@ class Drive_Square:
         for i in range(4):
             # Move forward
             rospy.loginfo("Forward!")
-            self.publish_for_duration(v=0.3, omega=0.0, duration=3.4)  # 🔧 adjust duration for ~1m
+            self.publish_for_duration(v=0.3, omega=0.0, duration=3.8)  # adjust duration for ~1m
             self.stop_robot()
             rospy.sleep(0.5)
 
             # Turn 90 degrees in place
             rospy.loginfo("Turning!")
-            self.publish_for_duration(v=0.0, omega=4.0, duration=0.88)  # 🔧 adjust duration for 90°
+            self.publish_for_duration(v=0.0, omega=4.0, duration=0.90)  # adjust duration for 90°
             self.stop_robot()
             rospy.sleep(0.5)
 
