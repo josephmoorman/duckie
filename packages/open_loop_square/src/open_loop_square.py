@@ -13,8 +13,8 @@ class Drive_Square:
         rospy.init_node('drive_square_node', anonymous=True)
         
         #Initialize Pub/Subs
-        self.pub = rospy.Publisher('/akandb/car_cmd_switch_node/cmd', Twist2DStamped, queue_size=1)
-        rospy.Subscriber('/akandb/fsm_node/mode', FSMState, self.fsm_callback, queue_size=1)
+        self.pub = rospy.Publisher('/deakinbot/car_cmd_switch_node/cmd', Twist2DStamped, queue_size=1)
+        rospy.Subscriber('/deakinbot/fsm_node/mode', FSMState, self.fsm_callback, queue_size=1)
         
     # robot only moves when lane following is selected on the duckiebot joystick app
     def fsm_callback(self, msg):
@@ -37,26 +37,38 @@ class Drive_Square:
     	rospy.spin() # keeps node from exiting until node has shutdown
 
     # Robot drives in a square and then stops
-    def move_robot(self):
+def move_robot(self):
 
-        #YOUR CODE GOES HERE#
+    rospy.loginfo("Starting square motion")
+
+    for i in range(4):
+
+        # Move forward
         self.cmd_msg.header.stamp = rospy.Time.now()
-        self.cmd_msg.v = 0.5 # striaght line velocity
+        self.cmd_msg.v = 0.3
         self.cmd_msg.omega = 0.0
         self.pub.publish(self.cmd_msg)
-        rospy.loginfo("Forward!")
-        rospy.sleep(1) # straight line driving time
-        
-        self.cmd_msg.header.stamp = rospy.Time.now()
-        self.cmd_msg.v = -0.5 # striaght line velocity
-        self.cmd_msg.omega = 0.0
-        self.pub.publish(self.cmd_msg)
-        rospy.loginfo("Backward!")
-        rospy.sleep(1) # straight line driving time
-        
-        ######################
-                
+
+        rospy.loginfo("Forward")
+        rospy.sleep(2.5)   # 🔧 TUNE THIS
+
         self.stop_robot()
+        rospy.sleep(0.5)
+
+        # Turn 90 degrees (left)
+        self.cmd_msg.header.stamp = rospy.Time.now()
+        self.cmd_msg.v = 0.0
+        self.cmd_msg.omega = 4.0
+        self.pub.publish(self.cmd_msg)
+
+        rospy.loginfo("Turning")
+        rospy.sleep(0.9)   # 🔧 TUNE THIS
+
+        self.stop_robot()
+        rospy.sleep(0.5)
+
+    rospy.loginfo("Square complete")
+    self.stop_robot()
 
 if __name__ == '__main__':
     try:
