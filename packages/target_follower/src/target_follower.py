@@ -14,7 +14,7 @@ class Target_Follower:
         # Shutdown safety
         rospy.on_shutdown(self.clean_shutdown)
         
-        # Publisher and Subscriber using robot name deakinbot
+        # Publisher and Subscriber using my robot name deakinbot
         self.cmd_vel_pub = rospy.Publisher('/deakinbot/car_cmd_switch_node/cmd', Twist2DStamped, queue_size=1)
         rospy.Subscriber('/deakinbot/apriltag_detector_node/detections', AprilTagDetectionArray, self.tag_callback, queue_size=1)
 
@@ -37,32 +37,28 @@ class Target_Follower:
         cmd_msg.omega = 0.0
         self.cmd_vel_pub.publish(cmd_msg)
 
-    # Main movement logic
+    # movement logic
     def move_robot(self, detections):
 
         cmd_msg = Twist2DStamped()
         cmd_msg.header.stamp = rospy.Time.now()
-        cmd_msg.v = 0.0   # No forward/backward movement required
+        cmd_msg.v = 0.0   # No forward/backward movement
 
-        # =========================================
-        # FEATURE 1: SEEK AN OBJECT
-        # =========================================
+        # 1. Seek an object
         if len(detections) == 0:
             rospy.loginfo("No AprilTag detected - seeking object")
             cmd_msg.omega = 0.3   # slow in-place rotation
             self.cmd_vel_pub.publish(cmd_msg)
             return
 
-        # =========================================
-        # FEATURE 2: LOOK AT THE OBJECT
-        # =========================================
+        # 2. Look at object
         x = detections[0].transform.translation.x
         y = detections[0].transform.translation.y
         z = detections[0].transform.translation.z
 
         rospy.loginfo("AprilTag position x,y,z: %f %f %f", x, y, z)
 
-        # Keep object centered using x value
+        # Keep object in the center using x value
         if abs(x) < 0.02:
             cmd_msg.omega = 0.0
             rospy.loginfo("Object centered - holding position")
